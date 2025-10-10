@@ -6,14 +6,14 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/09 18:41:49 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:29:04 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "./libft/libft.h"
+# include "../libft/libft.h"
 # include <aio.h>
 # include <stddef.h>	
 # include <sys/time.h>
@@ -32,5 +32,13 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <signal.h>
+
+typedef struct s_map
+{
+	size_t	height;
+}	t_map;
+
+
+void	validate_map(char *map_name);
 
 #endif
