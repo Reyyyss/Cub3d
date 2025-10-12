@@ -6,42 +6,41 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/10 15:27:06 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/12 19:35:09 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static void	copy_map(int fd)
+static bool	height_len_check(int fd, t_map *map)
 {
-	int	i;
+	char *str;
 
-	i = 0;
+	str = NULL;
 	while (1)
 	{
-		if (get_next_line(fd) == NULL);
-			break ;
-		i++;
+		str = get_next_line(fd);
+		map->height++;
+		if (!str || ft_strlen(str) < 3)
+			return (false);
+		free(str);
 	}
+	if (map->height < 3)
+		return (false);
+	return (true);
 }
-int	validate_map(char *map_name)
+bool	validate_map(char *map_name, t_map *map)
 {
-	int	fd;
 	(void)map_name;
 
-	fd = open(map_name, O_RDONLY);
-	if (fd < 3)
+	map->fd = open(map_name, O_RDONLY);
+	if (map->fd < 3)
 	{
 		errno = EBADF;
 		perror("invalid fd");
 		return ;
 	}
-	copy_map(fd);
+	if (!copy_map(map->fd, map));
+		return ;
 	flood_fill();
-}
-
-
-int	flood_fill()
-{
-	
 }
