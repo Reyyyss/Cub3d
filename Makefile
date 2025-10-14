@@ -6,7 +6,7 @@
 #    By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 17:20:29 by hcarrasq          #+#    #+#              #
-#    Updated: 2025/10/10 14:42:00 by hcarrasq         ###   ########.fr        #
+#    Updated: 2025/10/14 18:37:06 by hcarrasq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ RENDER_DIR = ./srcs/render
 
 # Source files
 SRCS_FILES = 
-PARSE_FILES = parse_main.c parser.c
+PARSE_FILES = parse_main.c parser.c parsing_utils.c
 RENDER_FILES = 
 
 # Full paths
