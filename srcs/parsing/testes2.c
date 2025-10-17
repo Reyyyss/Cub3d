@@ -17,6 +17,91 @@
 # include <stdbool.h>
 # include <signal.h>
 
+
+static void	*ft_free(char **str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		free(str[i++]);
+	free(str);
+	return (NULL);
+}
+
+static int	fill_words(char **newstr, const char *phrase, char c)
+{
+	size_t	i;
+	size_t	count;
+
+	count = 0;
+	while (*phrase)
+	{
+		while (*phrase && *phrase == c)
+			phrase++;
+		if (*phrase)
+		{
+			i = 0;
+			while (phrase[i] && phrase[i] != c)
+				i++;
+			newstr[count] = ft_substr(phrase, 0, i);
+			if (!newstr[count])
+			{
+				return (0);
+			}
+			count++;
+			phrase += i;
+		}
+	}
+	return (1);
+}
+
+static int	count_words(const char *phrase, char c, char **newstr)
+{
+	size_t	i;
+	size_t	count;
+
+	count = 0;
+	while (*phrase)
+	{
+		while (*phrase && *phrase == c)
+			phrase++;
+		if (*phrase)
+		{
+			i = 0;
+			while (phrase[i] && phrase[i] != c)
+				i++;
+			if (i && newstr)
+			{
+				newstr[count] = ft_substr(phrase, 0, i);
+				if (!newstr[count])
+					return (ft_free(newstr), 0);
+			}
+			count++;
+			phrase += i;
+		}
+	}
+	return (count);
+}
+
+static char	**ft_split(char const *s, char c)
+{
+	char	**newstr;
+	size_t	words;
+
+	if (!s)
+		return (NULL);
+	words = count_words(s, c, NULL);
+	newstr = ft_calloc(words + 1, sizeof(char *));
+	if (!newstr)
+		return (NULL);
+	if (!fill_words(newstr, s, c))
+	{
+		return (ft_free(newstr));
+	}
+	return (newstr);
+}
+
 static int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
@@ -37,7 +122,7 @@ static int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	size_t	i;
 
 	i = 0;
-	if (n == 0)				printf("FIRST INS: %c\n", str[i]);
+	if (n == 0)
 		return (0);
 	while (s1[i] == s2[i] && i < n - 1 && (s1[i] != '\0' || s2[i] != '\0'))
 		i++;
@@ -46,93 +131,60 @@ static int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 static bool check_coordinates(char *str, int flag)
 {
-	int	i;
-	int	l;
-	int	nums[3];
-	char str2[4];
+	int		i;
+	int		l;
+	char	**splited;
+	char	**splited_comma;
 
-	nums[0] = 0;
-	nums[1] = 0;
-	nums[2] = 0;
-	i = 0;
 	l = 0;
-	//checks for the 4 directions
+	i = 0;
 	if (flag == 1)
 	{
-		i = 2;
-		if (!is_wspace(str[2]))
-			return (false);
-		while (str[++i])
-		{
-			if (is_wspace(str[++i]))
-				return (false);
-		}
-		if (ft_strncmp(".xpm", str + strlen(str) - 4, 4) != 0)
-			return (false);
+		printf("boa!!!!!\n");
 		return (true);
 	}
-	//checks for ceiling and floor
 	else if (flag == 0)
 	{
-		i = 2;
 		if (!is_wspace(str[1]) || !ft_isdigit(str[2]))
 		{
 			printf("os espacos tao mal: ");
 			return (false);
 		}
-		while (str[i])
+		splited = ft_split(str, ' ');
+		if (!splited)
+			return (false);
+		while (splited[i])
+			i++;
+		if (i > 2)
+			return (false);
+		i = 0;
+		splited_comma = ft_split(splited[1], ' ');
+		if (!splited_comma)
 		{
-			nums[0] = 0;
-			if (ft_isdigit(str[i]))
-			{
-				nums[1]++;
-				l = i;
-				while (ft_isdigit(str[i]))
-				{
-					nums[0]++;
-					if (nums[0] > 3)
-					{
-						printf("mais que tres numeros antes do ponto: ");
-						return (false);
-					}
-					i++;
-				}
-			}
-			if (nums[1] > 3)
-			{
-				printf("demasiados numeros: ");
+			ft_free(splited);
+			return (false);
+		}
+		while (splited_comma[i])
+		{
+			if (i > 3)
 				return (false);
-			}
-			if (nums[0] > 0)
+			while (splited_comma[i][l])
 			{
-				nums[0] = 0;
-				nums[2] = i - l;
-				printf("I - L %d\n", i - l);
-				while (nums[0] < nums[2])
-					str2[nums[0]++] = str[l++];
-				str2[nums[0]] = '\0';
+
+				l++;
 			}
-			printf("string: %s\n", str2);
-			if (atoi(str2) > 255 || atoi(str2) < 0)
+			if (atoi(splited_comma[i]) > 255 || atoi(splited_comma[i]) < 0)
 			{
 				printf("atoi: ");
 				return (false);
 			}
-			if (!str[i])
-			{ 
-				printf("entrei\n");
-				break;
-			}
-			else if (!ft_isdigit(str[i]) && str[i] != ',')
-			{
-				printf("falta o ponto: ");
-				return (false);
-			}
 			i++;
 		}
+		
 	}
-	return (true);
 }
+
+
 
 int main(int ac, char **av)
 {
