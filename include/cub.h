@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/12 19:33:52 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/21 11:16:39 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ typedef struct s_map
 
 
 bool	validate_map(char *map_name, t_map *map);
+void	*ft_free(char **str);
+bool	is_wspace(char *str);
 
 #endif
