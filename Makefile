@@ -6,7 +6,7 @@
 #    By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 17:20:29 by hcarrasq          #+#    #+#              #
-#    Updated: 2025/10/14 18:37:06 by hcarrasq         ###   ########.fr        #
+#    Updated: 2025/10/22 15:28:25 by hcarrasq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS_DIR = srcs
 OBJS_DIR = objs
 LIBFT_DIR = ./libft
 LIBFT_A = $(LIBFT_DIR)/libft.a
-MLX = ./minilibx-linux/minilibx-linux
+MLX = ./minilibx-linux
 MLX_A = $(MLX)/libmlx.a
 PARSE_DIR = ./srcs/parsing
 RENDER_DIR = ./srcs/render
@@ -37,7 +37,7 @@ OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(ALL_SRCS:.c=.o)))
 # Compiler and flags
 CC = cc
 CFLAGS =  -Iinclude -g -Wall -Wextra -Werror
-MLXFLAGS = -lm -lX11
+MLXFLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
 
 # Build targets
 all: $(NAME)

@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   mlx_destroy_display.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mg <mg@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/14 18:36:53 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/22 15:17:08 by hcarrasq         ###   ########.fr       */
+/*   Created: 2020/10/03 18:56:35 by mg                #+#    #+#             */
+/*   Updated: 2020/10/04 01:55:35 by mg               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "mlx_int.h"
 
-void	*ft_free(char **str)
+int	mlx_destroy_display(t_xvar *xvar)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		free(str[i++]);
-	return (free(str), NULL);
+	XCloseDisplay(xvar->display);
 }

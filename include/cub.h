@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/21 11:16:39 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:26:16 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include "../libft/libft.h"
+# include "../minilibx-linux/mlx.h"
 # include <aio.h>
 # include <stddef.h>	
 # include <sys/time.h>
@@ -33,17 +34,27 @@
 # include <stdbool.h>
 # include <signal.h>
 
+typedef struct s_data
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_data;
+
 typedef struct s_map
 {
+	t_data *data;
 	size_t	height;
 	char	**map;
 	char	**map_copy;
+	void	*mlx;
 	int		fd;
 }	t_map;
 
 
-bool	validate_map(char *map_name, t_map *map);
+bool	validate_map_fd(char *map_name, t_map *map);
 void	*ft_free(char **str);
-bool	is_wspace(char *str);
 
 #endif

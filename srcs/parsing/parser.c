@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/21 12:15:21 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/22 16:07:03 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,24 @@ static bool	check_colors(char **str)
 	int		i;
 	int		l;
 
-	l = 0;
-	i = 0;
-	while (str[i])
+	l = -1;
+	i = -1;
+	while (str[++i])
 	{
 		if (i > 3)
 			return (false);
-		while (str[i][l])
+		while (str[i][++l])
 		{
 			if (!ft_isdigit(str[i][l]))
-			{
-				ft_free(str);
-				return ;
-			}
-			l++;
+				return (ft_free(str), false);
 		}
 		if (atoi(str[i]) > 255 || atoi(str[i]) < 0)
 		{
 			printf("atoi: ");
 			return (false);
 		}
-		i++;
 	}
+	return (true);
 }
 
 static bool check_coordinates(char *str)
@@ -83,11 +79,33 @@ static bool check_coordinates(char *str)
 		return (ft_free(splited), false);
 	if (!check_colors(splited_comma))
 		return (free(splited), false);
+	return (true);
 }
 
-static check_coords(char *str)
+static bool check_coords(char *str, t_map *map)
 {
-	
+	char	**splited;
+	int	i;
+	int	fd;
+
+	i = 0;
+	if (!is_wspace(str[1]) || !ft_isdigit(str[2]))
+		return (printf("os espacos tao mal: "), false);
+	splited = ft_split(str, ' ');
+	if (!splited)
+		return (false);
+	while (splited[i])
+		i++;
+	if (i >= 2)
+		return (false);
+	if (ft_strncmp(".xpm", splited[1] + ft_strlen(splited[2]) - 4, 2) != 0)
+		return (false);
+	fd = open(splited[2], O_RDONLY);
+	if (fd < 0)
+		return (ft_free(splited), false);
+	if (!mlx_xpm_file_to_image(map->mlx, splited[2], NULL, NULL))
+		return (ft_free(splited), false);
+	return (true);
 }
 
 static bool check_images(t_map *map, int fd)
@@ -96,27 +114,34 @@ static bool check_images(t_map *map, int fd)
 	char *str;
 
 	str = NULL;
-	i = -1;
-	while (++i <= 6)
+	i = 0;
+	while (i <= 2)
 	{
 		str = get_next_line(fd);
 		if (!str)
+			return (false);
+		printf("%s\n", str);
+		if (ft_strncmp("\n", str, 1) == 0)
+		{
+			free(str);
 			continue;
-		if (ft_strncmp("SO", *str, 2) == 0)
-			check_coords(*str);
-		else if (ft_strncmp("NO", *str, 2) == 0)
-			check_coords(*str); 
-		else if (ft_strncmp("WE", *str, 2) == 0)
-			check_coords(*str);
-		else if (ft_strncmp("EA", *str, 2) == 0)
-			check_coords(*str);
-		else if (ft_strncmp("f", *str, 2) == 0)
-			check_coordinates(*str);
-		else if (ft_strncmp("c", *str, 2) == 0)
-			check_coordinates(*str);
+		}
+		else if (ft_strncmp("SO", str, 2) == 0)
+			check_coords(str, map);
+		else if (ft_strncmp("NO", str, 2) == 0)
+			check_coords(str, map); 
+		else if (ft_strncmp("WE", str, 2) == 0)
+			check_coords(str, map);
+		else if (ft_strncmp("EA", str, 2) == 0)
+			check_coords(str, map);
+		else if (ft_strncmp("f", str, 1) == 0)
+			check_coordinates(str);
+		else if (ft_strncmp("c", str, 1) == 0)
+			check_coordinates(str);
 		else
 			return (false);
 		free(str);
+		i++;
 	}
 	return (true);
 }
@@ -130,10 +155,12 @@ bool	validate_map_fd(char *map_name, t_map *map)
 	{
 		errno = EBADF;
 		perror("invalid fd");
-		return ;
+		return (false);
 	}
 	if (!check_images(map, map->fd))
 	{
+		printf("deu coco\n");
+		return (false);
 	}
-	flood_fill();
+	return (true);
 }

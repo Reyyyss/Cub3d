@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:20:26 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/21 10:37:21 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:23:32 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int	main(int argc, char **argv)
 	map = malloc(sizeof(t_map));
 	if (!map)
 		return (1);
-	validate_map(argv[1], map);
+	if (!validate_map_fd(argv[1], map))
+		return (1);
 }
