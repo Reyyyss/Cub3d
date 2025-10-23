@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/22 16:07:03 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:10:00 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static bool	check_colors(char **str)
 	i = -1;
 	while (str[++i])
 	{
+		printf("%s\n", str[i]);
 		if (i > 3)
 			return (false);
 		while (str[i][++l])

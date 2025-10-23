@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:14:47 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/22 16:02:06 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:06:00 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	printf("coords:%s\n", s2);
 	size_t	i;
 
 	i = 0;
