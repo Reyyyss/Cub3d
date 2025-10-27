@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/23 18:10:00 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:13:26 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static bool check_coords(char *str, t_map *map)
 	int	fd;
 
 	i = 0;
-	if (!is_wspace(str[1]) || !ft_isdigit(str[2]))
+	if (!is_wspace(str[2]) || is_wspace(str[3]))
 		return (printf("os espacos tao mal: "), false);
 	splited = ft_split(str, ' ');
 	if (!splited)
@@ -116,7 +116,7 @@ static bool check_images(t_map *map, int fd)
 
 	str = NULL;
 	i = 0;
-	while (i <= 2)
+	while (i <= 5)
 	{
 		str = get_next_line(fd);
 		if (!str)
@@ -135,9 +135,9 @@ static bool check_images(t_map *map, int fd)
 			check_coords(str, map);
 		else if (ft_strncmp("EA", str, 2) == 0)
 			check_coords(str, map);
-		else if (ft_strncmp("f", str, 1) == 0)
+		else if (ft_strncmp("F", str, 1) == 0)
 			check_coordinates(str);
-		else if (ft_strncmp("c", str, 1) == 0)
+		else if (ft_strncmp("C", str, 1) == 0)
 			check_coordinates(str);
 		else
 			return (false);
@@ -163,5 +163,7 @@ bool	validate_map_fd(char *map_name, t_map *map)
 		printf("deu coco\n");
 		return (false);
 	}
+	printf("sou mm bom\n");
+	map_copy();
 	return (true);
 }

@@ -1,2 +1,10 @@
-f 255,255,255
-c 255,255,255
+F 255,255,255
+C 255,255,255
+NO ./textures/Player.xpm
+SO ./textures/Player.xpm
+WE ./textures/Player.xpm
+EA ./textures/Player.xpm
+
+1111111111111111
+1000000000000001
+1111111111111111
