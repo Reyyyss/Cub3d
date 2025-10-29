@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/27 15:13:26 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/29 12:22:37 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,6 @@ bool	validate_map_fd(char *map_name, t_map *map)
 		return (false);
 	}
 	printf("sou mm bom\n");
-	map_copy();
+	map_copy(map->fd, map_name);
 	return (true);
 }

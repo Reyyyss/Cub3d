@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/27 15:13:55 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/10/29 12:15:36 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ typedef struct s_map
 
 bool	validate_map_fd(char *map_name, t_map *map);
 void	*ft_free(char **str);
-char **map_copy();
+void	map_copy(int fd, char *map_name);
 
 #endif
