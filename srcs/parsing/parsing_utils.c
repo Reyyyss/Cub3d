@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:36:53 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/11/10 10:01:56 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/11/21 17:29:46 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,13 @@ void	*ft_free(char **str)
 	return (free(str), NULL);
 }
 
-static void	skip_coords(int fd, char *map_name)
+static void	fd_error(char *error_message)
+{
+		errno = EBADF;
+		perror(error_message);
+}
+
+static void	skip_coords(int fd)
 {
 	int	i;
 	char *str;
@@ -33,29 +39,54 @@ static void	skip_coords(int fd, char *map_name)
 	{
 		str = get_next_line(fd);
 		if (!str)
-			return (false);
+			return ;
 		if (ft_strncmp("\n", str, 1) == 0)
 		{
 			free(str);
 			continue;
 		}
-		else if ((ft_strncmp("SO", str, 2) == 0) 
-			|| (ft_strncmp("NO", str, 2) == 0))
-			;
-		else if ((ft_strncmp("WE", str, 2) == 0)
-			|| (ft_strncmp("EA", str, 2) == 0))
-			;
-		else if ((ft_strncmp("F", str, 1) == 0)
-			|| (ft_strncmp("C", str, 1) == 0))
-			;
-		else
-			return (false);
 		free(str);
 		i++;
 	}
 }
 
-int	map_copy(int fd, char *map_name)
+static t_map *ft_do_map(int fd, t_map *map, char *map_name)
+{
+	char 	*str;
+	int		i;
+
+	i = 0;
+	str = NULL;
+	while ((str = get_next_line(fd)) != NULL)
+		i++;
+	map->map_copy = ft_calloc(i, sizeof(char *));
+	map->map = ft_calloc(i, sizeof(char *));
+	if (!map->map_copy || !map->map)
+		return (NULL);
+	i = 0;
+	close(fd);
+	fd = open(map_name, O_RDONLY);
+	if (fd < 3)
+		return (fd_error("invalid fd"), NULL);
+	skip_coords(fd);
+	while ((str = get_next_line(fd)) != NULL)
+	{
+		if (ft_strncmp("\n", str, 1) == 0)
+		{
+			free(str);
+			continue;
+		}
+		ft_strlcpy(map->map[i], str, ft_strlen(str));
+		ft_strlcpy(map->map_copy[i], str, ft_strlen(str));
+		free(str);
+		i++;
+	}
+	ft_printf("map copy:%s\n\n", map->map_copy);
+	ft_printf("original map:%s\n\n", map->map);
+	return (map);
+}
+
+t_map	*map_copy(int fd, char *map_name, t_map *map)
 {
 	int	i;
 
@@ -63,15 +94,12 @@ int	map_copy(int fd, char *map_name)
 	while (get_next_line(fd))
 		i++;
 	if (i < 3)
-		return (-1);
+		return (NULL);
 	close(fd);
 	fd = open(map_name, O_RDONLY);
 	if (fd < 3)
-	{
-		errno = EBADF;
-		perror("invalid fd");
-		return (-1);
-	}
-	skip_coords(fd, map_name);
-	return (0);
+		return (fd_error("invalid fd"), NULL);
+	skip_coords(fd);
+	map = ft_do_map(fd, map, map_name);
+	return (map);
 }

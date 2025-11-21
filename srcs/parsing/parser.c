@@ -6,29 +6,11 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/10/29 12:22:37 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/11/21 13:38:43 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-/* static bool	height_len_check(int fd, t_map *map)
-{
-	char *str;
-
-	str = NULL;
-	while (1)
-	{
-		str = get_next_line(fd);
-		map->height++;
-		if (!str || ft_strlen(str) < 3)
-			return (false);
-		free(str);
-	}
-	if (map->height < 3)
-		return (false);
-	return (true);
-} */
 
 static bool	check_colors(char **str)
 {
@@ -121,7 +103,6 @@ static bool check_images(t_map *map, int fd)
 		str = get_next_line(fd);
 		if (!str)
 			return (false);
-		printf("%s\n", str);
 		if (ft_strncmp("\n", str, 1) == 0)
 		{
 			free(str);
@@ -159,11 +140,9 @@ bool	validate_map_fd(char *map_name, t_map *map)
 		return (false);
 	}
 	if (!check_images(map, map->fd))
-	{
-		printf("deu coco\n");
 		return (false);
-	}
-	printf("sou mm bom\n");
-	map_copy(map->fd, map_name);
+	map = map_copy(map->fd, map_name, map);
+	if (!map)
+		return (false);
 	return (true);
 }
