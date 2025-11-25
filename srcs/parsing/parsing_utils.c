@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:36:53 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/11/21 17:29:46 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:28:26 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static t_map *ft_do_map(int fd, t_map *map, char *map_name)
 {
 	char 	*str;
 	int		i;
+	int		l;
 
+	l = 0;
 	i = 0;
 	str = NULL;
 	while ((str = get_next_line(fd)) != NULL)
@@ -76,13 +78,28 @@ static t_map *ft_do_map(int fd, t_map *map, char *map_name)
 			free(str);
 			continue;
 		}
-		ft_strlcpy(map->map[i], str, ft_strlen(str));
-		ft_strlcpy(map->map_copy[i], str, ft_strlen(str));
+		if (!str)
+			continue;
+		while (l < 3 && i == 0)
+		{
+			str = calloc(ft_strlen(str) + 1, 1);
+			str = calloc(ft_strlen(str) + 1, 1);
+			l++;
+		}
+		i = 0;
+		l = 0;
+		while ((size_t)i < ft_strlen(str))
+		{
+			map->map[l][i] = str[i];
+			map->map_copy[l][i] = str[i];
+			i++;
+		}
 		free(str);
-		i++;
+		l++;
 	}
-	ft_printf("map copy:%s\n\n", map->map_copy);
-	ft_printf("original map:%s\n\n", map->map);
+	l = 0;
+	ft_printf("map copy:%s\n\n", map->map_copy[l]);
+	ft_printf("original map:%s\n\n", map->map[l]);
 	return (map);
 }
 
@@ -102,4 +119,18 @@ t_map	*map_copy(int fd, char *map_name, t_map *map)
 	skip_coords(fd);
 	map = ft_do_map(fd, map, map_name);
 	return (map);
+}
+
+bool	flood_fill(char **map, int x, int y)
+{
+	if (x < 0 || y < 0 || map[y][x] == '1' || map[y][x] == 'W')
+		return ;
+	if (map[y][x] == 'C')
+		//add a list of assets to add that you found a collectible
+	if (map[y][x] == 'E')
+		//add a list of assets to add that you reached the exit
+	flood_fill(map, x, y + 1);
+	flood_fill(map, x, y - 1);
+	flood_fill(map, x + 1, y);
+	flood_fill(map, x + 1, y);
 }

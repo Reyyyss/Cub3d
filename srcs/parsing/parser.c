@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/11/21 13:38:43 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:18:32 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ static bool	check_colors(char **str)
 				return (ft_free(str), false);
 		}
 		if (atoi(str[i]) > 255 || atoi(str[i]) < 0)
-		{
-			printf("atoi: ");
 			return (false);
-		}
 	}
 	return (true);
 }

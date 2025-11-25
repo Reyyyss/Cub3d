@@ -6,7 +6,7 @@
 /*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/11/21 13:31:58 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/11/25 18:29:48 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ typedef struct s_data
 	int		line_length;
 	int		endian;
 }	t_data;
+
+typedef struct s_assets
+{
+	int	exit_reached;
+	int collectibles_found;
+	int	existing_collectibles;
+	int player;
+}	t_assets;
 
 typedef struct s_map
 {
