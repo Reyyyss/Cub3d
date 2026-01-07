@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/11/25 18:18:32 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/12/07 14:12:22 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static bool	check_colors(char **str)
 	i = -1;
 	while (str[++i])
 	{
-		printf("%s\n", str[i]);
 		if (i > 3)
 			return (false);
 		while (str[i][++l])
@@ -44,7 +43,7 @@ static bool check_coordinates(char *str)
 	i = 0;
 	if (!is_wspace(str[1]) || !ft_isdigit(str[2]))
 	{
-		printf("os espacos tao mal: ");
+		printf("The spaces are wrong\n");
 		return (false);
 	}
 	splited = ft_split(str, ' ');
@@ -70,7 +69,7 @@ static bool check_coords(char *str, t_map *map)
 
 	i = 0;
 	if (!is_wspace(str[2]) || is_wspace(str[3]))
-		return (printf("os espacos tao mal: "), false);
+		return (printf("The spaces are wrong\n"), false);
 	splited = ft_split(str, ' ');
 	if (!splited)
 		return (false);
@@ -125,7 +124,7 @@ static bool check_images(t_map *map, int fd)
 	return (true);
 }
 
-bool	validate_map_fd(char *map_name, t_map *map)
+bool	validate_map(char *map_name, t_map *map)
 {
 	(void)map_name;
 

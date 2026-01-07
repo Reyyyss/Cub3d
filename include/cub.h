@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/11/29 17:28:08 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/12/08 11:10:41 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ typedef struct s_assets
 	int collectibles_found;
 	int	existing_collectibles;
 	int player;
+	size_t	player_x;
+	size_t	player_y;
+	int	existing_exits;
 }	t_assets;
 
 typedef struct s_map
@@ -68,5 +71,6 @@ bool	validate_map_fd(char *map_name, t_map *map);
 void	*ft_free(char **str);
 t_map	*map_copy(int fd, char *map_name, t_map *map);
 bool	initialize_values(t_map *m);
+bool	flood_fill(t_map *map, int x, int y);
 
 #endif

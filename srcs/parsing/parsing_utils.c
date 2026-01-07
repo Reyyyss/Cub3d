@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 18:36:53 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/11/29 16:59:16 by hcarrasq         ###   ########.fr       */
+/*   Updated: 2025/12/07 14:48:09 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ bool	flood_fill(t_map *map, int x, int y)
 	if (x < 0 || y < 0 || map->map_copy[y][x] == '1' || map->map_copy[y][x] == 'W')
 		return ;
 	if (map->map_copy[y][x] == 'C')
-		//add a list of assets to add that you found a collectible
+		map->assets->collectibles_found++;
 	if (map->map_copy[y][x] == 'E')
-		//add a list of assets to add that you reached the exit
+		map->assets->exit_reached = 1;
 	flood_fill(map, x, y + 1);
 	flood_fill(map, x, y - 1);
 	flood_fill(map, x + 1, y);
