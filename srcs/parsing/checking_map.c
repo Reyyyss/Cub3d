@@ -6,7 +6,7 @@
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:59:54 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/19 16:29:41 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/19 16:57:14 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static t_map	*checking_surrounds(t_map *map)
 	while (y < map->height && map->map[y])
 	{
 		x = 0;
+	
 		while (x < map->width && map->map[y][x] && map->map[y][x] != '\n')
 		{
 			if (map->map[y][x] == '0'
@@ -64,12 +65,28 @@ static t_map	*checking_surrounds(t_map *map)
 				|| map->map[y][x] == 'E'
 				|| map->map[y][x] == 'W')
 			{
+				if (map->map[y][x] == 'N'
+				|| map->map[y][x] == 'S' || map->map[y][x] == 'E' || map->map[y][x] == 'W')
+				{
+					map->assets.player++;
+					map->assets.player_x = x;
+					map->assets.player_y = y;
+					map->assets.player_direction = map->map[y][x];
+					if (map->assets.player > 1)
+						return (NULL);
+				}
 				if (y == 0 || y == map->height - 1
 					|| x == 0 || x == map->width - 1)
 					return (NULL);
 				if (!checking_next_tile(map->map[y][x + 1], map->map[y][x - 1], map->map[y + 1][x], map->map[y - 1][x]))
 					return (NULL);
 			}
+			else if (char_checker("10NSEW\n\0", map->map[y][x]) == false && map->map[y][x] != ' '){
+				ft_printf("wrong char positions x:%d y:%d", x, y);
+				ft_printf("wrong char:%c", map->map[y][x]);
+				return (NULL);
+			}
+			
 			x++;
 		}
 		y++;

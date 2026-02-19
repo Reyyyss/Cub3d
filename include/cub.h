@@ -6,7 +6,7 @@
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2026/02/18 22:43:31 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/19 16:54:42 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_map	*map_checker(t_map	*map);
 void	liberator(char **str);
 void	parsing_exit_function(t_map *map, int fd);
 char	*pad_line(char *line, size_t width);
+bool	char_checker(const char *s, int c);
 
 
 #endif

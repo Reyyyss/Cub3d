@@ -6,11 +6,29 @@
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 21:47:08 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/18 23:13:09 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/19 16:55:26 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+bool	char_checker(const char *s, int c)
+{
+	int		i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	while (i > 0)
+	{
+		if (s[i] == (unsigned char)c)
+			return (true);
+		i--;
+	}
+	if (s[i] == (unsigned char)c)
+		return (true);
+	return (false);
+}
 
 void	*ft_free(char **str)
 {
