@@ -6,7 +6,7 @@
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:59:54 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/19 15:43:07 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/19 16:00:24 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,38 @@ static t_map	*checking_surrounds(t_map *map)
 		x = 0;
 		while (x < map->width && map->map[y][x] && map->map[y][x] != '\n')
 		{
-			if (y == 0 || y == map->height - 1)
-			{
-				if (map->map[y][x] != '1')
-				{
-					while (map->map[y][x] == ' ')
-					{
-						x++;
-						if (x >= map->width || !map->map[y][x] || map->map[y][x] == '\n')
-							break ;
-					}
-					if (map->map[y][x] != '1')
-						return (NULL);
-				}
-			}
-			if (map->map[y][x - 1] == '0')
-			{
-				if (map->map[y][x] != '1' && map->map[y][x] != '0' && map->map[y][x] != 'N' && map->map[y][x] != 'S' && map->map[y][x] != 'E' && map->map[y][x] != 'W')
-					return (NULL);
-			}
+			if (map->map[y][x] == '0'
+	|| map->map[y][x] == 'N'
+	|| map->map[y][x] == 'S'
+	|| map->map[y][x] == 'E'
+	|| map->map[y][x] == 'W')
+{
+	if (y == 0 || y == map->height - 1
+		|| x == 0 || x == map->width - 1)
+		return (NULL);
+
+	if (!map->map[y - 1]
+		|| map->map[y - 1][x] == ' '
+		|| map->map[y - 1][x] == '\0'
+		|| map->map[y - 1][x] == '\n')
+		return (NULL);
+
+	if (!map->map[y + 1]
+		|| map->map[y + 1][x] == ' '
+		|| map->map[y + 1][x] == '\0'
+		|| map->map[y + 1][x] == '\n')
+		return (NULL);
+
+	if (map->map[y][x - 1] == ' '
+		|| map->map[y][x - 1] == '\0'
+		|| map->map[y][x - 1] == '\n')
+		return (NULL);
+
+	if (map->map[y][x + 1] == ' '
+		|| map->map[y][x + 1] == '\0'
+		|| map->map[y][x + 1] == '\n')
+		return (NULL);
+}
 			x++;
 		}
 		y++;
