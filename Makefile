@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+         #
+#    By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 17:20:29 by hcarrasq          #+#    #+#              #
-#    Updated: 2025/11/29 17:02:25 by hcarrasq         ###   ########.fr        #
+#    Updated: 2026/02/13 09:41:53 by henrique-re      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ RENDER_DIR = ./srcs/render
 
 # Source files
 SRCS_FILES = 
-PARSE_FILES = parse_main.c parser.c parsing_utils.c begin_data.c
+PARSE_FILES = parse_main.c begin_data.c header_checker.c map_loading.c parsing_utils.c checking_map.c
 RENDER_FILES = 
 
 # Full paths
@@ -36,7 +36,7 @@ OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(ALL_SRCS:.c=.o)))
 
 # Compiler and flags
 CC = cc
-CFLAGS =  -Iinclude -g -Wall -Wextra -Werror
+CFLAGS =  -Iinclude -g -Wall -Wextra -Werror -no-pie
 MLXFLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
 
 # Build targets

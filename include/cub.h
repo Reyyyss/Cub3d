@@ -6,7 +6,7 @@
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 17:11:29 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/12/08 11:10:41 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/18 22:43:31 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,17 @@ typedef struct s_data
 typedef struct s_assets
 {
 	int	exit_reached;
-	int collectibles_found;
-	int	existing_collectibles;
 	int player;
 	size_t	player_x;
 	size_t	player_y;
+	char	player_direction;
 	int	existing_exits;
 }	t_assets;
 
 typedef struct s_map
 {
-	t_data *data;
-	t_assets *assets;
+	t_data data;
+	t_assets assets;
 	size_t	height;
 	size_t	width;
 	char	**map;
@@ -66,11 +65,18 @@ typedef struct s_map
 	int		fd;
 }	t_map;
 
-
-bool	validate_map_fd(char *map_name, t_map *map);
+t_map *initialize_values(t_map *map, char *map_name);
+t_map *initialize_data(t_map *map);
+bool check_images(t_map *map, int fd, int header_index);
+void	fd_error(char *error_message);
+t_map	*load_map(t_map *map, char *map_name);
 void	*ft_free(char **str);
-t_map	*map_copy(int fd, char *map_name, t_map *map);
-bool	initialize_values(t_map *m);
-bool	flood_fill(t_map *map, int x, int y);
+void	print_map(t_map *map);
+bool	get_new_zero(char **map, int x, int y, int *pos);
+t_map	*map_checker(t_map	*map);
+void	liberator(char **str);
+void	parsing_exit_function(t_map *map, int fd);
+char	*pad_line(char *line, size_t width);
+
 
 #endif

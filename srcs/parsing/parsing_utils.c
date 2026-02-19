@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/14 18:36:53 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/12/07 14:48:09 by henrique-re      ###   ########.fr       */
+/*   Created: 2026/01/26 21:47:08 by henrique-re       #+#    #+#             */
+/*   Updated: 2026/02/18 23:13:09 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,63 +22,81 @@ void	*ft_free(char **str)
 	return (free(str), NULL);
 }
 
-static void	fd_error(char *error_message)
+void	print_map(t_map *map)
 {
-		errno = EBADF;
-		perror(error_message);
+	for (int i = 0; map->map_copy[i]; i++)
+		ft_printf("row:%i      %s\n", i, map->map_copy[i]);
 }
 
-static void	skip_coords(int fd)
+bool	get_new_zero(char **map, int x, int y, int *pos)
+{
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == '0')
+			{
+				pos[0] = x;
+				pos[1] = y;
+				return (true);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (false);
+}
+
+void	liberator(char **str)
 {
 	int	i;
-	char *str;
 
-	str = NULL;
 	i = 0;
-	while (i <= 5)
+	if (!str)
+		return ;
+	while (str[i])
 	{
-		str = get_next_line(fd);
-		if (!str)
-			return ;
-		if (ft_strncmp("\n", str, 1) == 0)
-		{
-			free(str);
-			continue;
-		}
-		free(str);
+		free(str[i]);
 		i++;
 	}
+	free(str);
 }
 
-t_map	*map_copy(int fd, char *map_name, t_map *map)
+void	parsing_exit_function(t_map *map, int fd)
 {
-	int	i;
+	if (map)
+		liberator(map->map);
+	if (map->mlx)
+	{
+		free(map->mlx);
+	}
+	if (fd > 0)
+		close (fd);
+	exit(1);
+}
+
+char	*pad_line(char *line, size_t width)
+{
+	char	*new_line;
+	size_t	i;
+
+	new_line = malloc(width + 1);
+	if (!new_line)
+		return (NULL);
 
 	i = 0;
-	while (get_next_line(fd))
+	while (line[i] && line[i] != '\n')
+	{
+		new_line[i] = line[i];
 		i++;
-	if (i < 3)
-		return (NULL);
-	close(fd);
-	fd = open(map_name, O_RDONLY);
-	if (fd < 3)
-		return (fd_error("invalid fd"), NULL);
-	skip_coords(fd);
-	map = ft_do_map(fd, map, map_name);
-	return (map);
-}
+	}
+	while (i < width)
+	{
+		new_line[i] = ' ';
+		i++;
+	}
 
-bool	flood_fill(t_map *map, int x, int y)
-{
-	if (x < 0 || y < 0 || map->map_copy[y][x] == '1' || map->map_copy[y][x] == 'W')
-		return ;
-	if (map->map_copy[y][x] == 'C')
-		map->assets->collectibles_found++;
-	if (map->map_copy[y][x] == 'E')
-		map->assets->exit_reached = 1;
-	flood_fill(map, x, y + 1);
-	flood_fill(map, x, y - 1);
-	flood_fill(map, x + 1, y);
-	flood_fill(map, x + 1, y);
-	return (map);
+	new_line[i] = '\0';
+	return (new_line);
 }

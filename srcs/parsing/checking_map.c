@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checking_map.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/27 14:59:54 by henrique-re       #+#    #+#             */
+/*   Updated: 2026/02/19 14:28:06 by henrique-re      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub.h"
+
+void	flood_fill(t_map *map, int x, int y, int *pos)
+{
+	if (x < 0 || x >= (int)map->width || y < 0 || y >= (int)map->height)
+		return ;
+	if (!map->map_copy[y])
+		return ;
+	if (map->map_copy[y][x] == ' ' || map->map_copy[y][x] == '\n')
+	{
+		liberator(map->map_copy);
+		parsing_exit_function(map, -1);
+	}
+	if (map->map_copy[y][x] == '.' || map->map_copy[y][x] == '1')
+		return ;
+	map->map_copy[y][x] = '.';
+	flood_fill(map, y + 1, x, pos);
+	flood_fill(map, y - 1, x, pos);
+	flood_fill(map, y, x + 1, pos);
+	flood_fill(map, y, x - 1, pos);
+	if (get_new_zero(map->map_copy, x, y, pos))
+		flood_fill(map, pos[0], pos[1], pos);
+}
+
+/* static t_map	*checking_surrounds(t_map *map)
+{
+	size_t	y;
+	size_t	x;
+
+	y = 0;
+	while (y < map->height && map->map[y])
+	{
+		x = 0;
+		while (x < map->width && map->map[y][x] && map->map[y][x] != '\n')
+		{
+			if (y == 0 || y == map->height - 1)
+			{
+				if (map->map[y][x] != '1')
+					return (NULL);
+			}
+			if (x == 0 || x == map->width - 1)
+			{
+				if (map->map[y][x] != '1')
+					return (NULL);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (map);
+} */
+
+t_map	*map_checker(t_map	*map)
+{
+	int	pos[2];
+
+	pos[0] = 0;
+	pos[1] = 0;
+	get_new_zero(map->map, pos[0], pos[1], pos);
+	ft_printf("0 was found at x=%d y=%d\n", pos[0], pos[1]);
+	/* map = checking_surrounds(map);
+	if (!map)
+		return (ft_printf("Your map building is wrong\n"), NULL); */
+	flood_fill(map, pos[0], pos[1], pos);
+	return (map);
+}

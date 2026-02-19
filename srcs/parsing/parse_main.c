@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/09 17:20:26 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/12/07 14:11:11 by henrique-re      ###   ########.fr       */
+/*   Created: 2026/01/23 19:01:22 by henrique-re       #+#    #+#             */
+/*   Updated: 2026/02/19 10:31:00 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,24 @@
 int	main(int argc, char **argv)
 {
 	t_map *map;
+
+	map = NULL;
 	if (argc != 2)
 		return (ft_printf("2 arguments expected\n"), 1);
 	if (ft_strncmp(".cub", argv[1] + ft_strlen(argv[1]) - 4, 4) != 0)
 		return (ft_printf("Map name should end with .cub\n"), 1);
-	map = malloc(sizeof(t_map));
+	map = initialize_data(map);
 	if (!map)
-		return (ft_printf("Error allocanting the memory for map\n"), 1);
-	map = initialize_values(map);
-	if (!validate_map(argv[1], map))
 		return (1);
+	map = initialize_values(map, argv[1]);
+	if (!map)
+		return (1);
+	map = load_map(map, argv[1]);
+	if (!map)
+		return (1);
+	print_map(map);
+	map = map_checker(map);
+	if (!map)
+		return (1);
+	print_map(map);
 }

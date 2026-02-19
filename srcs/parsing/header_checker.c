@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   header_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 14:39:24 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/12/07 14:12:22 by henrique-re      ###   ########.fr       */
+/*   Created: 2026/01/24 17:33:38 by henrique-re       #+#    #+#             */
+/*   Updated: 2026/02/13 10:01:24 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static bool	check_colors(char **str)
 	int		i;
 	int		l;
 
-	l = -1;
 	i = -1;
 	while (str[++i])
 	{
-		if (i > 3)
+		if (i > 2)
 			return (false);
+		l = -1;
 		while (str[i][++l])
 		{
 			if (!ft_isdigit(str[i][l]))
@@ -42,10 +42,7 @@ static bool check_coordinates(char *str)
 
 	i = 0;
 	if (!is_wspace(str[1]) || !ft_isdigit(str[2]))
-	{
-		printf("The spaces are wrong\n");
-		return (false);
-	}
+		return (printf("The spaces are wrong\n"), false);
 	splited = ft_split(str, ' ');
 	if (!splited)
 		return (false);
@@ -87,16 +84,16 @@ static bool check_coords(char *str, t_map *map)
 	return (true);
 }
 
-static bool check_images(t_map *map, int fd)
+bool check_images(t_map *map, int fd, int header_index)
 {
-	int	i;
 	char *str;
 
 	str = NULL;
-	i = 0;
-	while (i <= 5)
+	while (header_index <= 5)
 	{
+		
 		str = get_next_line(fd);
+		printf("%s\n", str);
 		if (!str)
 			return (false);
 		if (ft_strncmp("\n", str, 1) == 0)
@@ -104,41 +101,20 @@ static bool check_images(t_map *map, int fd)
 			free(str);
 			continue;
 		}
-		else if (ft_strncmp("SO", str, 2) == 0)
+		else if (ft_strncmp("SO", str, 2) == 0) 
 			check_coords(str, map);
 		else if (ft_strncmp("NO", str, 2) == 0)
-			check_coords(str, map); 
+			check_coords(str, map);
 		else if (ft_strncmp("WE", str, 2) == 0)
 			check_coords(str, map);
 		else if (ft_strncmp("EA", str, 2) == 0)
 			check_coords(str, map);
-		else if (ft_strncmp("F", str, 1) == 0)
-			check_coordinates(str);
-		else if (ft_strncmp("C", str, 1) == 0)
+		else if (ft_strchr("FC", str[0]))
 			check_coordinates(str);
 		else
 			return (false);
 		free(str);
-		i++;
+		header_index++;
 	}
-	return (true);
-}
-
-bool	validate_map(char *map_name, t_map *map)
-{
-	(void)map_name;
-
-	map->fd = open(map_name, O_RDONLY);
-	if (map->fd < 3)
-	{
-		errno = EBADF;
-		perror("invalid fd");
-		return (false);
-	}
-	if (!check_images(map, map->fd))
-		return (false);
-	map = map_copy(map->fd, map_name, map);
-	if (!map)
-		return (false);
 	return (true);
 }
