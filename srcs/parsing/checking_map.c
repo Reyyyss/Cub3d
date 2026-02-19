@@ -6,7 +6,7 @@
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:59:54 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/19 16:00:24 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/19 16:29:41 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,20 @@ void	flood_fill(t_map *map, int x, int y, int *pos)
 	if (get_new_zero(map->map_copy, x, y, pos))
 		flood_fill(map, pos[0], pos[1], pos);
 }
-
+static bool	checking_next_tile(char forward, char behind, char below, char above)
+{
+	if (!forward || !behind || !below || !above)
+		return (false);
+	if (above == ' ' || above == '\n' || above == '\0')
+		return (false);
+	if (below == ' ' || below == '\n' || below == '\0')
+		return (false);
+	if (forward == ' ' || forward == '\n' || forward == '\0')
+		return (false);
+	if (behind == ' ' || behind == '\n' || behind == '\0')
+		return (false);
+	return (true);
+}
 static t_map	*checking_surrounds(t_map *map)
 {
 	size_t	y;
@@ -46,37 +59,17 @@ static t_map	*checking_surrounds(t_map *map)
 		while (x < map->width && map->map[y][x] && map->map[y][x] != '\n')
 		{
 			if (map->map[y][x] == '0'
-	|| map->map[y][x] == 'N'
-	|| map->map[y][x] == 'S'
-	|| map->map[y][x] == 'E'
-	|| map->map[y][x] == 'W')
-{
-	if (y == 0 || y == map->height - 1
-		|| x == 0 || x == map->width - 1)
-		return (NULL);
-
-	if (!map->map[y - 1]
-		|| map->map[y - 1][x] == ' '
-		|| map->map[y - 1][x] == '\0'
-		|| map->map[y - 1][x] == '\n')
-		return (NULL);
-
-	if (!map->map[y + 1]
-		|| map->map[y + 1][x] == ' '
-		|| map->map[y + 1][x] == '\0'
-		|| map->map[y + 1][x] == '\n')
-		return (NULL);
-
-	if (map->map[y][x - 1] == ' '
-		|| map->map[y][x - 1] == '\0'
-		|| map->map[y][x - 1] == '\n')
-		return (NULL);
-
-	if (map->map[y][x + 1] == ' '
-		|| map->map[y][x + 1] == '\0'
-		|| map->map[y][x + 1] == '\n')
-		return (NULL);
-}
+				|| map->map[y][x] == 'N'
+				|| map->map[y][x] == 'S'
+				|| map->map[y][x] == 'E'
+				|| map->map[y][x] == 'W')
+			{
+				if (y == 0 || y == map->height - 1
+					|| x == 0 || x == map->width - 1)
+					return (NULL);
+				if (!checking_next_tile(map->map[y][x + 1], map->map[y][x - 1], map->map[y + 1][x], map->map[y - 1][x]))
+					return (NULL);
+			}
 			x++;
 		}
 		y++;
