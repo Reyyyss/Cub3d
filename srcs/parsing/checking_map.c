@@ -6,7 +6,7 @@
 /*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:59:54 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/19 14:28:06 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/19 15:43:07 by henrique-re      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	flood_fill(t_map *map, int x, int y, int *pos)
 		flood_fill(map, pos[0], pos[1], pos);
 }
 
-/* static t_map	*checking_surrounds(t_map *map)
+static t_map	*checking_surrounds(t_map *map)
 {
 	size_t	y;
 	size_t	x;
@@ -48,11 +48,20 @@ void	flood_fill(t_map *map, int x, int y, int *pos)
 			if (y == 0 || y == map->height - 1)
 			{
 				if (map->map[y][x] != '1')
-					return (NULL);
+				{
+					while (map->map[y][x] == ' ')
+					{
+						x++;
+						if (x >= map->width || !map->map[y][x] || map->map[y][x] == '\n')
+							break ;
+					}
+					if (map->map[y][x] != '1')
+						return (NULL);
+				}
 			}
-			if (x == 0 || x == map->width - 1)
+			if (map->map[y][x - 1] == '0')
 			{
-				if (map->map[y][x] != '1')
+				if (map->map[y][x] != '1' && map->map[y][x] != '0' && map->map[y][x] != 'N' && map->map[y][x] != 'S' && map->map[y][x] != 'E' && map->map[y][x] != 'W')
 					return (NULL);
 			}
 			x++;
@@ -60,7 +69,7 @@ void	flood_fill(t_map *map, int x, int y, int *pos)
 		y++;
 	}
 	return (map);
-} */
+}
 
 t_map	*map_checker(t_map	*map)
 {
@@ -70,9 +79,9 @@ t_map	*map_checker(t_map	*map)
 	pos[1] = 0;
 	get_new_zero(map->map, pos[0], pos[1], pos);
 	ft_printf("0 was found at x=%d y=%d\n", pos[0], pos[1]);
-	/* map = checking_surrounds(map);
+	map = checking_surrounds(map);
 	if (!map)
-		return (ft_printf("Your map building is wrong\n"), NULL); */
+		return (ft_printf("Your map building is wrong\n"), NULL);
 	flood_fill(map, pos[0], pos[1], pos);
 	return (map);
 }
