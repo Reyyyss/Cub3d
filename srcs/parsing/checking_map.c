@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 14:59:54 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/19 16:57:14 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/20 19:09:13 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,12 @@ static t_map	*checking_surrounds(t_map *map)
 	
 		while (x < map->width && map->map[y][x] && map->map[y][x] != '\n')
 		{
-			if (map->map[y][x] == '0'
-				|| map->map[y][x] == 'N'
-				|| map->map[y][x] == 'S'
-				|| map->map[y][x] == 'E'
+			if (map->map[y][x] == '0' || map->map[y][x] == 'N'
+				|| map->map[y][x] == 'S' || map->map[y][x] == 'E'
 				|| map->map[y][x] == 'W')
 			{
-				if (map->map[y][x] == 'N'
-				|| map->map[y][x] == 'S' || map->map[y][x] == 'E' || map->map[y][x] == 'W')
+				if (map->map[y][x] == 'N' || map->map[y][x] == 'S'
+				|| map->map[y][x] == 'E' || map->map[y][x] == 'W')
 				{
 					map->assets.player++;
 					map->assets.player_x = x;
@@ -81,11 +79,8 @@ static t_map	*checking_surrounds(t_map *map)
 				if (!checking_next_tile(map->map[y][x + 1], map->map[y][x - 1], map->map[y + 1][x], map->map[y - 1][x]))
 					return (NULL);
 			}
-			else if (char_checker("10NSEW\n\0", map->map[y][x]) == false && map->map[y][x] != ' '){
-				ft_printf("wrong char positions x:%d y:%d", x, y);
-				ft_printf("wrong char:%c", map->map[y][x]);
+			else if (char_checker("10NSEW\n\0", map->map[y][x]) == false && map->map[y][x] != ' ')
 				return (NULL);
-			}
 			
 			x++;
 		}

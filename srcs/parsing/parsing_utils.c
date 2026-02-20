@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 21:47:08 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/19 16:55:26 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/20 19:04:58 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,6 @@ void	*ft_free(char **str)
 	while (str[i])
 		free(str[i++]);
 	return (free(str), NULL);
-}
-
-void	print_map(t_map *map)
-{
-	for (int i = 0; map->map_copy[i]; i++)
-		ft_printf("row:%i      %s\n", i, map->map_copy[i]);
 }
 
 bool	get_new_zero(char **map, int x, int y, int *pos)

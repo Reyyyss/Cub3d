@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   begin_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:07:07 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/18 12:39:44 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/20 19:08:08 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	fd_error(char *error_message)
 	perror(error_message);
 }
 
-static size_t get_width(char *line)
+static size_t	get_width(char *line)
 {
-	static size_t len;
-	size_t	new_len;
-	int i;
+	static size_t	len;
+	size_t			new_len;
+	int				i;
 
 	i = 0;
 	new_len = 0;
@@ -39,7 +39,7 @@ static size_t get_width(char *line)
 	return (len);
 }
 
-t_map *initialize_data(t_map *m)
+t_map	*initialize_data(t_map *m)
 {
 	m = malloc(sizeof(t_map));
 	if (!m)
@@ -55,23 +55,23 @@ t_map *initialize_data(t_map *m)
 	return (m);
 }
 
-t_map *initialize_values(t_map *map, char *map_name)
+t_map	*initialize_values(t_map *map, char *map_name)
 {
-	char *str;
-	int	fd;
+	char	*str;
+	int		fd;
 
 	fd = open(map_name, O_RDONLY);
 	if (fd < 3)
 		return (fd_error("invalid fd"), NULL);
 	str = NULL;
 	if (!check_images(map, fd, 0))
-			return (ft_printf("Header is Wrong\n"), NULL);
+		return (ft_printf("Header is Wrong\n"), NULL);
 	while ((str = get_next_line(fd)) != NULL)
 	{
 		if (str[0] == '\n')
 		{
 			free(str);
-			continue;
+			continue ;
 		}
 		map->width = get_width(str);
 		map->height++;

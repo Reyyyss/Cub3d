@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:33:38 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/13 10:01:24 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/20 19:13:21 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static bool	check_colors(char **str)
 	return (true);
 }
 
-static bool check_coordinates(char *str)
+static bool	check_coordinates(char *str)
 {
 	char	**splited;
 	char	**splited_comma;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!is_wspace(str[1]) || !ft_isdigit(str[2]))
@@ -58,11 +58,11 @@ static bool check_coordinates(char *str)
 	return (true);
 }
 
-static bool check_coords(char *str, t_map *map)
+static bool	check_coords(char *str, t_map *map)
 {
 	char	**splited;
-	int	i;
-	int	fd;
+	int		i;
+	int		fd;
 
 	i = 0;
 	if (!is_wspace(str[2]) || is_wspace(str[3]))
@@ -84,24 +84,22 @@ static bool check_coords(char *str, t_map *map)
 	return (true);
 }
 
-bool check_images(t_map *map, int fd, int header_index)
+bool	check_images(t_map *map, int fd, int header_index)
 {
-	char *str;
+	char	*str;
 
 	str = NULL;
 	while (header_index <= 5)
 	{
-		
 		str = get_next_line(fd);
-		printf("%s\n", str);
 		if (!str)
 			return (false);
 		if (ft_strncmp("\n", str, 1) == 0)
 		{
 			free(str);
-			continue;
+			continue ;
 		}
-		else if (ft_strncmp("SO", str, 2) == 0) 
+		else if (ft_strncmp("SO", str, 2) == 0)
 			check_coords(str, map);
 		else if (ft_strncmp("NO", str, 2) == 0)
 			check_coords(str, map);

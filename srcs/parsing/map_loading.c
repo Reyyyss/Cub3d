@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   map_loading.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:04:25 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/18 22:38:46 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/20 19:15:12 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cub.h"
 
@@ -17,20 +16,20 @@ static t_map	*allocation_for_map(t_map *map)
 {
 	map->map = malloc(sizeof(char *) * (map->height + 1));
 	if (!map->map)
-		return(ft_printf("Error Allocating memory for the map\n"), NULL);
+		return (ft_printf("Error Allocating memory for the map\n"), NULL);
 	map->map_copy = malloc(sizeof(char *) * (map->height + 1));
 	if (!map->map_copy)
 	{
 		free(map->map);
-		return(ft_printf("Error Allocating memory for the map copy\n"), NULL);
+		return (ft_printf("Error Allocating memory for the map copy\n"), NULL);
 	}
 	return (map);
 }
 
 static void	skip_coords(int fd)
 {
-	int	i;
-	char *str;
+	int		i;
+	char	*str;
 
 	str = NULL;
 	i = 0;
@@ -42,7 +41,7 @@ static void	skip_coords(int fd)
 		if (str[0] == '\n')
 		{
 			free(str);
-			continue;
+			continue ;
 		}
 		free(str);
 		i++;
@@ -51,9 +50,9 @@ static void	skip_coords(int fd)
 
 t_map	*load_map(t_map *map, char *map_name)
 {
-	int	fd;
-	char *str;
-	int	i;
+	int		fd;
+	char	*str;
+	int		i;
 
 	i = 0;
 	str = NULL;
@@ -69,7 +68,7 @@ t_map	*load_map(t_map *map, char *map_name)
 		if (str[0] == '\n')
 		{
 			free(str);
-			continue;
+			continue ;
 		}
 		map->map[i] = pad_line(str, map->width);
 		map->map_copy[i] = pad_line(str, map->width);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+         #
+#    By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/09 17:20:29 by hcarrasq          #+#    #+#              #
-#    Updated: 2026/02/13 09:41:53 by henrique-re      ###   ########.fr        #
+#    Updated: 2026/02/20 18:53:08 by hcarrasq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(ALL_SRCS:.c=.o)))
 
 # Compiler and flags
 CC = cc
-CFLAGS =  -Iinclude -g -Wall -Wextra -Werror -no-pie
+CFLAGS =  -Iinclude -g -Wall -Wextra -Werror
 MLXFLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
 
 # Build targets

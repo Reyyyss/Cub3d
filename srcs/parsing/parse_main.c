@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henrique-reis <henrique-reis@student.42    +#+  +:+       +#+        */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:01:22 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/19 10:31:00 by henrique-re      ###   ########.fr       */
+/*   Updated: 2026/02/20 19:06:15 by hcarrasq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_map *map;
+	t_map	*map;
 
 	map = NULL;
 	if (argc != 2)
