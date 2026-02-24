@@ -1,78 +1,73 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/10/09 17:20:29 by hcarrasq          #+#    #+#              #
-#    Updated: 2026/02/20 18:53:08 by hcarrasq         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = cub3d
 
-# Directories
-SRCS_DIR = srcs
-OBJS_DIR = objs
+CC = gcc
+CFLAGS = -Wall -Werror -Wextra -O3 -march=native -flto -ftree-vectorize -funroll-loops -ffast-math
+MLXFLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+
+SRC_DIR = srcs
+OBJECTS_DIR = objects
+
+SOURCES_FILES = core/main.c core/mlx_init.c core/mlx_hooks.c \
+				player/player.c player/player_movement.c \
+				raycasting/rays.c raycasting/rays_init.c raycasting/rays_utils.c \
+				raycasting/rays_collision.c raycasting/lines.c raycasting/math.c \
+				rendering/render_3d.c rendering/textures.c rendering/texture_utils.c \
+				minimap/mini_map.c minimap/mini_map_rays.c minimap/mini_map_utils.c \
+				ui/game_instructions.c \
+				parsing/parse_main.c parsing/parse_colors.c \
+				parsing/parse_header.c parsing/checking_map.c \
+				parsing/map_loading.c parsing/parsing_utils.c
+
+SRC = $(addprefix $(SRC_DIR)/, $(SOURCES_FILES))
+OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(SOURCES_FILES:.c=.o))
+
+LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DIR = ./libft
-LIBFT_A = $(LIBFT_DIR)/libft.a
-MLX = ./minilibx-linux
-MLX_A = $(MLX)/libmlx.a
-PARSE_DIR = ./srcs/parsing
-RENDER_DIR = ./srcs/render
 
-# Source files
-SRCS_FILES = 
-PARSE_FILES = parse_main.c begin_data.c header_checker.c map_loading.c parsing_utils.c checking_map.c
-RENDER_FILES = 
+MLX = $(MLX_DIR)/libmlx.a
+MLX_DIR = ./minilibx-linux
 
-# Full paths
-SRCS   = $(addprefix $(SRCS_DIR)/,   $(SRCS_FILES))
-PARSE  = $(addprefix $(PARSE_DIR)/,  $(PARSE_FILES))
-RENDER = $(addprefix $(RENDER_DIR)/, $(RENDER_FILES))
-ALL_SRCS = $(SRCS) $(PARSE) $(RENDER)
-OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(ALL_SRCS:.c=.o)))
-
-# Compiler and flags
-CC = cc
-CFLAGS =  -Iinclude -g -Wall -Wextra -Werror
-MLXFLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
-
-# Build targets
 all: $(NAME)
 
-$(OBJS_DIR):
-	@mkdir -p $(OBJS_DIR)
+$(NAME): $(LIBFT) $(MLX) $(OBJECTS) 
+	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBFT) $(MLX) $(MLXFLAGS) -o $(NAME)
+	@echo ""
+	@echo "\033[1;36m ██████╗██╗   ██╗██████╗ ██████╗ ██████╗ \033[0m"
+	@echo "\033[1;36m██╔════╝██║   ██║██╔══██╗╚════██╗██╔══██╗\033[0m"
+	@echo "\033[1;36m██║     ██║   ██║██████╔╝ █████╔╝██║  ██║\033[0m"
+	@echo "\033[1;36m██║     ██║   ██║██╔══██╗ ╚═══██╗██║  ██║\033[0m"
+	@echo "\033[1;36m╚██████╗╚██████╔╝██████╔╝██████╔╝██████╔╝\033[0m"
+	@echo "\033[1;36m ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝ \033[0m"
+	@echo ""
+	@echo "\033[1;32m  ✓ Build successful!\033[0m"
+	@echo ""
+	@echo "\033[1;33m  Usage:\033[0m ./cub3d maps/<choose avaliable map>"
+	@echo "\033[0;37m  Available maps:\033[0m"
+	@for map in maps/*.cub; do echo "    → $$map"; done
+	@echo ""
 
-$(LIBFT_A):
-	$(MAKE) -C $(LIBFT_DIR) -s
+$(OBJECTS_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(MLX_A):
-	$(MAKE) -C  $(MLX) -s
-	
-$(NAME): $(OBJS) $(LIBFT_A) $(MLX_A)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) $(MLX_A) $(MLXFLAGS) -o $(NAME)
+$(LIBFT):
+	@make -C $(LIBFT_DIR) bonus -s --no-print-directory
 
+$(MLX):
+	@make -C $(MLX_DIR)
 
-$(OBJS_DIR)/%.o: $(PARSE_DIR)/%.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJS_DIR)/%.o: $(RENDER_DIR)/%.c | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJECTS_DIR):
+	@mkdir -p $(OBJECTS_DIR)
 
 clean:
-	@$(MAKE) -C  $(LIBFT_DIR) -s clean
-	@$(MAKE) -C  $(MLX) -s clean
-	@rm -rf $(OBJS_DIR)
+	@rm -rf $(OBJECTS_DIR)
+	@make -C $(LIBFT_DIR) clean -s
 
 fclean: clean
-	@$(MAKE) -C $(LIBFT_DIR) -s fclean
+	@echo "Cleaned!"
+	@make -C $(LIBFT_DIR) fclean -s --no-print-directory
 	@rm -rf $(NAME)
 
 re: fclean all
 
-r:
-	make re && clear && ./$(NAME)
-
-.PHONY: all clean fclean re r
+.PHONY: all clean fclean re

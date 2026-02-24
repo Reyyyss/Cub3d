@@ -1,82 +1,93 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   map_loading.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 18:04:25 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/20 19:15:12 by hcarrasq         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../../inc/cub3d.h"
 
-#include "cub.h"
-
-static t_map	*allocation_for_map(t_map *map)
+static int	count_remaining_lines(t_game *cub, int fd)
 {
-	map->map = malloc(sizeof(char *) * (map->height + 1));
-	if (!map->map)
-		return (ft_printf("Error Allocating memory for the map\n"), NULL);
-	map->map_copy = malloc(sizeof(char *) * (map->height + 1));
-	if (!map->map_copy)
+	char	*line;
+	int		len;
+
+	while (1)
 	{
-		free(map->map);
-		return (ft_printf("Error Allocating memory for the map copy\n"), NULL);
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		ft_strtrim_nl(line);
+		if (line[0] == '\0')
+		{
+			free(line);
+			continue ;
+		}
+		len = ft_strlen(line);
+		if (len > cub->map_cols)
+			cub->map_cols = len;
+		cub->map_rows++;
+		free(line);
 	}
-	return (map);
+	return (cub->map_rows > 0);
 }
 
-static void	skip_coords(int fd)
+static void	skip_header_lines(int fd)
 {
-	int		i;
-	char	*str;
+	char	*line;
+	int		header_count;
 
-	str = NULL;
-	i = 0;
-	while (i < 6)
+	header_count = 0;
+	while (header_count < 6)
 	{
-		str = get_next_line(fd);
-		if (!str)
+		line = get_next_line(fd);
+		if (!line)
 			return ;
-		if (str[0] == '\n')
-		{
-			free(str);
-			continue ;
-		}
-		free(str);
-		i++;
+		ft_strtrim_nl(line);
+		if (line[0] != '\0')
+			header_count++;
+		free(line);
 	}
 }
 
-t_map	*load_map(t_map *map, char *map_name)
+static int	fill_map_rows(t_game *cub, int fd)
 {
-	int		fd;
-	char	*str;
+	char	*line;
 	int		i;
 
 	i = 0;
-	str = NULL;
-	fd = open(map_name, O_RDONLY);
-	if (fd < 3)
-		return (fd_error("invalid fd"), NULL);
-	map = allocation_for_map(map);
-	if (!map)
-		return (NULL);
-	skip_coords(fd);
-	while ((str = get_next_line(fd)) != NULL)
+	while (1)
 	{
-		if (str[0] == '\n')
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		ft_strtrim_nl(line);
+		if (line[0] == '\0')
 		{
-			free(str);
+			free(line);
 			continue ;
 		}
-		map->map[i] = pad_line(str, map->width);
-		map->map_copy[i] = pad_line(str, map->width);
-		free(str);
+		cub->map[i] = pad_line(line, cub->map_cols);
+		free(line);
+		if (!cub->map[i])
+			return (0);
 		i++;
 	}
-	map->map[i] = NULL;
-	map->map_copy[i] = NULL;
+	cub->map[i] = NULL;
+	return (1);
+}
+
+int	load_map(t_game *cub, char *filename)
+{
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (parsing_error("Cannot open file"), 0);
+	skip_header_lines(fd);
+	cub->map = malloc(sizeof(char *) * (cub->map_rows + 1));
+	if (!cub->map)
+		return (close(fd), 0);
+	if (!fill_map_rows(cub, fd))
+		return (close(fd), 0);
 	close(fd);
-	return (map);
+	return (1);
+}
+
+int	count_map_dimensions(t_game *cub, int fd)
+{
+	return (count_remaining_lines(cub, fd));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 17:30:34 by hcarrasq          #+#    #+#             */
-/*   Updated: 2024/11/21 13:46:32 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/11/07 18:40:59 by miovu             #+#    #+#             */
+/*   Updated: 2024/11/18 19:41:54 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,38 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	t_list	*temp;
-
-	temp = lst;
-	while (temp)
+	if (!lst || !f)
+		return ;
+	while (lst)
 	{
-		f(temp->content);
-		temp = temp->next;
+		f(lst->content);
+		lst = lst->next;
 	}
 }
 
-/* void	ft_toupper_lstiter(void *content)
+/* #include <stdio.h>
+void	printlist(void *content)
 {
 	if (content)
-	{
-		char *str = (char *)content;
-		while (*str)
-		{
-			*str = ft_toupper(*str);
-			str++;
-		}
-	}
+		printf("%s", (char *)content);
 }
 
-int main()
+int	main()
 {
-	printf("\t\t----ft_lstiter----\n\n");
+	t_list	*head = ft_lstnew("Hello ");
+	t_list	*head1 = ft_lstnew("world!");
+	t_list	*head2 = ft_lstnew(" - from 42.\n");
+
+	head->next = head1;
+	head1->next = head2;
+
+	ft_lstiter(head, printlist);
 	
-	t_list *head = ft_lstnew(ft_strdup("Hello"));
-	ft_lstadd_back(&head, ft_lstnew(ft_strdup("World")));
-	ft_lstadd_back(&head, ft_lstnew(ft_strdup("123!")));
-	
-	t_list	*current = head;
-	size_t	i = 1;
-	printf("  Before iterating the list:\n");
-	while (current)
+	t_list	*temp;
+	while (head)
 	{
-		printf("  Node %zu: %s\n", i++, (char *)current->content);
-		current = current->next;
-	}
-	ft_lstiter(head, &ft_toupper_lstiter);
-	i = 1;
-	current = head;
-	printf("  After iterating the list:\n");
-	while (current)
-	{
-		printf("  Node %zu: %s\n", i++, (char *)current->content);
-		current = current->next;
+		temp = head->next;
+		free(head);
+		head = temp;
 	}
 } */

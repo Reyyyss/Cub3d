@@ -1,0 +1,48 @@
+{
+   mlx_init_leak
+   Memcheck:Leak
+   ...
+   fun:mlx_init
+}
+{
+   mlx_new_window_leak
+   Memcheck:Leak
+   ...
+   fun:mlx_new_window
+}
+{
+   mlx_new_image_leak
+   Memcheck:Leak
+   ...
+   fun:mlx_new_image
+}
+{
+   mlx_get_data_addr_leak
+   Memcheck:Leak
+   ...
+   fun:mlx_get_data_addr
+}
+{
+   mlx_xlib_leak
+   Memcheck:Leak
+   ...
+   obj:*/libX11.so*
+}
+{
+   mlx_xext_leak
+   Memcheck:Leak
+   ...
+   obj:*/libXext.so*
+}
+{
+   mlx_xcb_leak
+   Memcheck:Leak
+   ...
+   obj:*/libxcb.so*
+}
+{
+   mlx_general_leak
+   Memcheck:Leak
+   ...
+   obj:*/libmlx*.so*
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 14:01:54 by hcarrasq          #+#    #+#             */
-/*   Updated: 2024/11/21 13:45:36 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/11/07 18:05:28 by miovu             #+#    #+#             */
+/*   Updated: 2024/11/16 19:47:56 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,32 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	t_list	*temp;
-	int		i;
+	int	count;
 
-	temp = lst;
-	i = 0;
-	while (temp)
+	count = 0;
+	while (lst)
 	{
-		temp = temp->next;
-		i++;
+		count++;
+		lst = lst->next;
 	}
-	return (i);
+	return (count);
 }
 
-/* int main()
+/* #include <stdio.h>
+int	main()
 {
-	t_list *head = malloc(sizeof(t_list));
-	t_list *second = malloc(sizeof(t_list));
-	t_list *third = malloc(sizeof(t_list));
-	t_list *fourth = malloc(sizeof(t_list));
+	t_list	*head = ft_lstnew("Hello");
+	t_list	*temp = ft_lstnew("world");;
+	t_list	*temp1 = ft_lstnew("everything");;
+	t_list	*temp2 = ft_lstnew("okay");;
+	
+	head->next = temp;
+	temp->next = temp1;
+	temp1->next = temp2;
 
-	if(!head || !second || !third || !fourth)
-	{
-		printf("Memory allocation failed\n");
-		return(1);
-	}
-	head->content = (void *)10;
-	head->next = second;
-
-	second->content = (void *)20;
-	second->next = third;
-
-	third->content = (void *)30;
-	third->next = fourth;
-
-	fourth->content = (void *)40;
-	fourth->next = NULL;
-
-	int size = ft_lstsize(head);
-	printf("The size of the linked list is: %d\n", size);
-
-	free(fourth);
-	free(third);
-	free(second);
-	free(head);
-
+	int	i;
+	
+	i = ft_lstsize(head);
+	printf("List size: %d", i);
 	return (0);
 } */

@@ -3,39 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 14:19:55 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/05/07 11:20:40 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/10/26 17:32:51 by chillhoneyy       #+#    #+#             */
+/*   Updated: 2024/11/16 16:54:37 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
-	int		count;
-	int		i;
-	long	num;
-	long	max;
+	int	i;
+	int	sign;
+	int	res;
 
-	max = (long)INT_MAX + 1;
-	num = 0;
 	i = 0;
-	count = 1;
-	while ((nptr[i] >= '\t' && nptr[i] <= '\r') || nptr[i] == ' ')
+	sign = 1;
+	res = 0;
+	while ((nptr[i] >= 9 && nptr[i] <= 13) || (nptr[i] == 32))
 		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
+	if (nptr[i] == '-' || nptr[i] == '+')
 	{
-		if (nptr[i++] == '-')
-			count *= -1;
+		if (nptr[i] == '-')
+			sign *= -1;
+		i++;
 	}
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		if (num > max)
-			break ;
-		num = num * 10 + (nptr[i] - 48);
+		res = res * 10 + (nptr[i] - '0');
 		i++;
 	}
-	return (num * count);
+	return (res * sign);
 }
+
+/* #include <stdio.h>
+int	main()
+{
+	const char	*nbr= "   -567ter";
+	
+	ft_atoi(nbr);
+	printf("Atoi: %d\n", ft_atoi(nbr));
+	return (0);
+} */

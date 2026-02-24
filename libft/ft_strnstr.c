@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 13:44:03 by hcarrasq          #+#    #+#             */
-/*   Updated: 2024/11/18 13:32:34 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/10/28 14:42:12 by miovu             #+#    #+#             */
+/*   Updated: 2024/11/18 18:45:35 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,37 @@
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t	i;
-	size_t	l;
+	size_t	h;
+	size_t	n;
 
-	i = 0;
-	l = 0;
-	if (little[l] == '\0')
+	h = 0;
+	if (little[h] == '\0')
 		return ((char *)big);
-	while (big[i] && i < len)
+	while (big[h])
 	{
-		l = 0;
-		while (big[i + l] == little[l] && i + l < len)
+		n = 0;
+		while (big[h + n] == little[n] && (h + n) < len)
 		{
-			l++;
-			if (!little[l])
-				return ((char *)&big[i]);
+			if (big[h + n] == '\0' && little[n] == '\0')
+				return ((char *) big + h);
+			n++;
 		}
-		i++;
+		if (little[n] == '\0')
+			return ((char *) big + h);
+		h++;
 	}
-	return (NULL);
+	return (0);
 }
+
+/* #include <stdio.h>
+int	main()
+{
+	const char	*b = "Hello World!";
+	const char	*l = "World!";
+	size_t		s = 20;
+	char		*i;
+	
+	i = ft_strnstr(b, l, s);
+	printf("Found at %s\n", i);
+	return (0);
+} */

@@ -1,102 +1,68 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/26 21:47:08 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/20 19:04:58 by hcarrasq         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../../inc/cub3d.h"
+#include <dirent.h>
 
-#include "cub.h"
-
-bool	char_checker(const char *s, int c)
+static void	print_available_maps(void)
 {
-	int		i;
+	DIR				*dir;
+	struct dirent	*entry;
 
-	i = 0;
-	while (s[i])
-		i++;
-	while (i > 0)
+	dir = opendir("maps");
+	if (!dir)
+		return ;
+	entry = readdir(dir);
+	while (entry)
 	{
-		if (s[i] == (unsigned char)c)
-			return (true);
-		i--;
+		if (ft_strnstr(entry->d_name, ".cub", ft_strlen(entry->d_name)))
+			ft_printf("    → maps/%s\n", entry->d_name);
+		entry = readdir(dir);
 	}
-	if (s[i] == (unsigned char)c)
-		return (true);
-	return (false);
+	closedir(dir);
 }
 
-void	*ft_free(char **str)
+void	parsing_error(char *msg)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		free(str[i++]);
-	return (free(str), NULL);
+	ft_printf("\n  \033[1;31mError: %s\033[0m\n\n", msg);
+	ft_printf("  \033[1;33mUsage:\033[0m ./cub3d maps/<choose map>\n");
+	ft_printf("  \033[0;37mAvailable maps:\033[0m\n");
+	print_available_maps();
+	ft_printf("\n");
 }
 
-bool	get_new_zero(char **map, int x, int y, int *pos)
-{
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == '0')
-			{
-				pos[0] = x;
-				pos[1] = y;
-				return (true);
-			}
-			x++;
-		}
-		y++;
-	}
-	return (false);
-}
-
-void	liberator(char **str)
+void	free_str_arr(char **arr)
 {
 	int	i;
 
-	i = 0;
-	if (!str)
+	if (!arr)
 		return ;
-	while (str[i])
+	i = 0;
+	while (arr[i])
 	{
-		free(str[i]);
+		free(arr[i]);
 		i++;
 	}
-	free(str);
+	free(arr);
 }
 
-void	parsing_exit_function(t_map *map, int fd)
+char	*ft_strtrim_nl(char *str)
 {
-	if (map)
-		liberator(map->map);
-	if (map->mlx)
-	{
-		free(map->mlx);
-	}
-	if (fd > 0)
-		close (fd);
-	exit(1);
+	int	len;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	if (len > 0 && str[len - 1] == '\n')
+		str[len - 1] = '\0';
+	return (str);
 }
 
-char	*pad_line(char *line, size_t width)
+char	*pad_line(char *line, int width)
 {
 	char	*new_line;
-	size_t	i;
+	int		i;
 
 	new_line = malloc(width + 1);
 	if (!new_line)
 		return (NULL);
-
 	i = 0;
 	while (line[i] && line[i] != '\n')
 	{
@@ -108,7 +74,6 @@ char	*pad_line(char *line, size_t width)
 		new_line[i] = ' ';
 		i++;
 	}
-
 	new_line[i] = '\0';
 	return (new_line);
 }

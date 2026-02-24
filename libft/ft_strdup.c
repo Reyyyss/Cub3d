@@ -3,33 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 16:08:45 by hcarrasq          #+#    #+#             */
-/*   Updated: 2024/11/21 17:43:15 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/10/26 16:17:08 by chillhoneyy       #+#    #+#             */
+/*   Updated: 2024/11/18 17:07:44 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s);
-
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s)
 {
-	size_t	i;
-	char	*frase;
+	int		i;
+	int		len;
+	char	*dup;
 
+	len = ft_strlen(s);
+	dup = (char *)malloc(sizeof(char) * len + 1);
+	if (!dup)
+		return (NULL);
 	i = 0;
-	if (!s1)
-		return (NULL);
-	frase = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char));
-	if (!frase)
-		return (NULL);
-	while (i < ft_strlen(s1))
+	while (s[i] != '\0')
 	{
-		frase[i] = s1[i];
+		dup[i] = s[i];
 		i++;
 	}
-	frase[i] = '\0';
-	return (frase);
+	dup[i] = '\0';
+	return (dup);
 }
+/* 
+#include <stdio.h>
+int	main()
+{
+	char	*str = "Hello world!";
+	
+	char	*duplicate = ft_strdup(str);
+	printf("Duplicate: %s\n", duplicate);
+} */

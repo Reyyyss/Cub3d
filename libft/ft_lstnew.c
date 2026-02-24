@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 10:13:51 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/02/03 17:54:53 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/11/07 18:45:30 by miovu             #+#    #+#             */
+/*   Updated: 2025/02/13 18:29:40 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,20 @@
 
 t_list	*ft_lstnew(void *content)
 {
-	t_list	*elm;
+	t_list	*new;
 
-	elm = malloc(sizeof(t_list));
-	if (!elm)
+	new = malloc(sizeof(t_list));
+	if (!new)
 		return (NULL);
-	elm->content = content;
-	elm->next = NULL;
-	return (elm);
+	new->content = content;
+	new->next = NULL;
+	return (new);
 }
-/*int main ()
-{
-	char *str = "Tamos ai";
 
-	t_list *new_node = ft_lstnew((void *)str);
-	if (new_node)
-	{
-		printf("New list node created!\n");
-		printf("Content: %s\n", (char *)new_node->content);
-		printf("Next: %p\n", (void *)new_node->next);
-	}
-	else
-		printf("Failed to create list node.\n");
-	free(new_node);
-	return(0);
-}*/
+/* #include <stdio.h>
+int	main()
+{
+	t_list *test = ft_lstnew("Hello world");
+
+	printf("List: %s", (char *)test->content);
+} */

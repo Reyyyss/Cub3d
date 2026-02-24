@@ -1,49 +1,58 @@
-
-
 NAME = libft.a
 
-SOURCES = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c \
-			ft_itoa.c ft_memchr.c ft_memcmp.c ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c \
-			ft_putnbr_fd.c ft_putstr_fd.c ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c \
-			ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c \
-			ft_substr.c ft_tolower.c ft_toupper.c ft_memcpy.c ft_strlcat.c ft_strlcpy.c \
-			ft_printf.c ft_prtptr.c ft_putchar.c ft_putnbr_base.c ft_putstr.c get_next_line.c \
-			get_next_line_utils.c \
-			ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c \
-			ft_lstlast.c ft_lstnew.c ft_lstsize.c ft_lstmap.c ft_iswspace.c
-
-OBJECTS = $(SOURCES:.c=.o)
-
-BONUS_OBJECTS = $(LST:.c=.o)
-
 CC = cc
+CFLAGS = -Wall -Wextra -Werror
+OBJECTS_DIR = libft_objects
 
-CFLAGS = -Wall -Wextra -Werror -g
+SOURCES_FILES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
+			ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c \
+			ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c ft_strchr.c \
+			ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c \
+			ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
+			ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
+			ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
+			ft_isspace.c ft_atol.c ft_atof.c
+
+BSOURCES = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
+			ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
+			ft_lstmap.c
+
+PRINTF_SOURCES = $(addprefix ./printf/, ft_printf.c print_chars_strs.c printhex.c \
+					printnbrs.c )
+GNL_SOURCES = $(addprefix ./get_next_line/, get_next_line_bonus.c \
+			get_next_line_utils_bonus.c get_next_line_utils.c get_next_line.c )
+
+OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(SOURCES_FILES:.c=.o))
+BOBJECTS = $(addprefix $(OBJECTS_DIR)/, $(BSOURCES:.c=.o))
+PRINTFOBJECTS = $(addprefix $(OBJECTS_DIR)/, $(notdir $(PRINTF_SOURCES:.c=.o)))
+GNL_OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(notdir $(GNL_SOURCES:.c=.o)))
 
 all: $(NAME)
 
-%.o : %.c
+$(NAME): $(OBJECTS) $(BOBJECTS) $(PRINTFOBJECTS) $(GNL_OBJECTS)
+	@ar rcs $@ $^
 
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJECTS_DIR)/%.o: %.c | $(OBJECTS_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJECTS)
-	@ar rcs $(NAME) $(OBJECTS)
+$(OBJECTS_DIR)/%.o: ./printf/%.c | $(OBJECTS_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME_BONUS): 
+$(OBJECTS_DIR)/%.o: ./get_next_line/%.c | $(OBJECTS_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJECTS_DIR):
+	@mkdir -p $(OBJECTS_DIR)
+
+bonus: $(BOBJECTS) $(NAME)
+	@ar rcs $(NAME) $(BOBJECTS)
 
 clean:
-
-	@rm -f $(OBJECTS) $(BONUS_OBJECTS) 
+	@rm -rf $(OBJECTS_DIR)
 
 fclean: clean
-
-	@rm -f $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 
-
-bonus:  all $(OBJECTS) $(BONUS_OBJECTS)
-		@ar rcs $(NAME) $(OBJECTS) $(BONUS_OBJECTS)
-
-
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

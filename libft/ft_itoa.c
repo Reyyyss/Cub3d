@@ -3,57 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:34:51 by hcarrasq          #+#    #+#             */
-/*   Updated: 2024/11/19 11:32:40 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/10/31 12:03:42 by miovu             #+#    #+#             */
+/*   Updated: 2024/11/16 16:54:01 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_nbrsz(int nbr);
+static int	numb_len(int nb)
+{
+	int	len;
+
+	len = 1;
+	while (nb / 10 != 0)
+	{
+		len++;
+		nb = nb / 10;
+	}
+	return (len);
+}
+
+static void	fill_str(char *str, int nb, int len)
+{
+	str[len] = '\0';
+	while (--len >= 0)
+	{
+		str[len] = '0' + (nb % 10);
+		nb = nb / 10;
+	}
+}
 
 char	*ft_itoa(int n)
 {
-	size_t		digits;
-	char		*result;
-	long int	nbr;
+	char	*str;
+	int		len;
+	int		is_negative;
 
-	nbr = n;
-	digits = ft_nbrsz(n);
-	if (nbr == INT_MIN)
+	is_negative = (n < 0);
+	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	if (n < 0)
-		nbr = -nbr;
-	result = malloc(sizeof(char) * (digits + 1));
-	if (!result)
+	len = numb_len(n) + is_negative;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
 		return (NULL);
-	*(result + digits) = 0;
-	while (digits--)
+	if (is_negative)
 	{
-		*(result + digits) = nbr % 10 + '0';
-		nbr = nbr / 10;
+		str[0] = '-';
+		n = -n;
 	}
-	if (n < 0)
-		*(result + 0) = '-';
-	return (result);
+	fill_str(str + is_negative, n, len - is_negative);
+	return (str);
 }
 
-int	ft_nbrsz(int nbr)
+/* #include <stdio.h>
+int	main()
 {
-	size_t	count;
+	int	nbr = 57;
 
-	count = 1;
-	if (nbr < 0)
-	{
-		nbr = -nbr;
-		count++;
-	}
-	while (nbr >= 10)
-	{
-		nbr /= 10;
-		count++;
-	}
-	return (count);
-}
+	printf("Itoa: %s", ft_itoa(nbr));
+	return (0);
+} */

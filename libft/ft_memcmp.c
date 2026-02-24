@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 14:33:14 by hcarrasq          #+#    #+#             */
-/*   Updated: 2024/11/18 17:49:30 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/11/04 14:13:58 by miovu             #+#    #+#             */
+/*   Updated: 2024/11/18 16:39:10 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,40 @@
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
+	unsigned char	*str1;
+	unsigned char	*str2;
 	size_t			i;
-	unsigned char	*frase1;
-	unsigned char	*frase2;
 
-	frase1 = (unsigned char *)s1;
-	frase2 = (unsigned char *)s2;
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
 	i = 0;
-	if (!frase1 || !frase2)
-		frase1[i] = 0;
-	if (n == 0)
-		return (0);
-	while (i < n - 1 && frase1[i] == frase2[i])
+	while (i < n)
+	{
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
 		i++;
-	return ((unsigned char)frase1[i] - (unsigned char)frase2[i]);
+	}
+	return (0);
 }
+
+/* #include <stdio.h>
+#include <string.h>
+int	main()
+{
+	char	*str1 = "Hello World";
+	char	*str2 = "HeLlo World";
+	char	*str3 = "Hello World";
+	char	*str4 = "HeLlo World";
+	size_t	n = 10;
+	int		i;
+	int		j;
+	
+	i = ft_memcmp(str1, str2, n);
+	j = memcmp(str3, str4, n);
+
+	if (i && j)
+		printf("Memcmp was successfull!\n");
+		else
+			printf("Memcmp wasn't successfull!");
+	return (0);
+} */

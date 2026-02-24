@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 15:59:22 by hcarrasq          #+#    #+#             */
-/*   Updated: 2025/01/28 16:42:09 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/11/07 18:32:15 by miovu             #+#    #+#             */
+/*   Updated: 2025/01/27 17:06:00 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,31 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*last;
+	t_list	*temp;
 
-	last = *lst;
-	if (!last)
-		*lst = new;
-	else
+	if (!lst || !new)
+		return ;
+	if (*lst == NULL)
 	{
-		while (last->next)
-			last = last->next;
-		last->next = new;
+		*lst = new;
+		return ;
 	}
+	temp = ft_lstlast(*lst);
+	temp->next = new;
 }
 
-/* int	main()
+/* #include <stdio.h>
+int main(void)
 {
-	printf("\t\t----ft_lstadd_back----\n\n");
-	int value1 = 42;
-	t_list *node1 = ft_lstnew(&value1);
-	int value2 = 43;
-	t_list *node2 = ft_lstnew(&value2);
-	int value3 = 44;
-	t_list *node3 = ft_lstnew(&value3);
-	int value4 = 45;
-	t_list *node4 = ft_lstnew(&value4);
-	
-	ft_lstadd_back(&node1, node2);
-	ft_lstadd_back(&node1, node3);
-	ft_lstadd_back(&node1, node4);
-	
-	printf("  Content of head node: %d\n  Content of the next node: %d\n)
+	t_list	*head;
 
+	head = ft_lstnew("Hello,");
+	ft_lstadd_back(&head, ft_lstnew("world"));
+	
+	t_list	*temp1 = head;
+	while(temp1)
+	{
+		printf("List: %s\n", (char *)temp1->content);
+		temp1 = temp1->next;
+	}
 } */

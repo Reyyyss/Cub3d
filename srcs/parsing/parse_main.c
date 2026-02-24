@@ -1,38 +1,57 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_main.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/23 19:01:22 by henrique-re       #+#    #+#             */
-/*   Updated: 2026/02/20 19:06:15 by hcarrasq         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../../inc/cub3d.h"
 
-#include "cub.h"
-
-int	main(int argc, char **argv)
+void	init_parsing_data(t_game *cub)
 {
-	t_map	*map;
+	cub->map = NULL;
+	cub->map_rows = 0;
+	cub->map_cols = 0;
+	cub->tex_paths[TEX_N] = NULL;
+	cub->tex_paths[TEX_E] = NULL;
+	cub->tex_paths[TEX_S] = NULL;
+	cub->tex_paths[TEX_W] = NULL;
+	cub->floor_color = -1;
+	cub->ceiling_color = -1;
+	cub->player_start_dir = 0;
+	cub->player_start_col = 0;
+	cub->player_start_row = 0;
+}
 
-	map = NULL;
-	if (argc != 2)
-		return (ft_printf("2 arguments expected\n"), 1);
-	if (ft_strncmp(".cub", argv[1] + ft_strlen(argv[1]) - 4, 4) != 0)
-		return (ft_printf("Map name should end with .cub\n"), 1);
-	map = initialize_data(map);
-	if (!map)
-		return (1);
-	map = initialize_values(map, argv[1]);
-	if (!map)
-		return (1);
-	map = load_map(map, argv[1]);
-	if (!map)
-		return (1);
-	print_map(map);
-	map = map_checker(map);
-	if (!map)
-		return (1);
-	print_map(map);
+static int	validate_filename(char *filename)
+{
+	int	len;
+
+	len = ft_strlen(filename);
+	if (len < 5)
+		return (parsing_error("Invalid file name"), 0);
+	if (ft_strncmp(".cub", filename + len - 4, 4) != 0)
+		return (parsing_error("Map file must end with .cub"), 0);
+	return (1);
+}
+
+int	parse_cub_file(t_game *cub, char *filename)
+{
+	int	fd;
+
+	if (!validate_filename(filename))
+		return (0);
+	init_parsing_data(cub);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (parsing_error("Cannot open file"), 0);
+	if (!parse_header(cub, fd))
+	{
+		close(fd);
+		return (0);
+	}
+	if (!count_map_dimensions(cub, fd))
+	{
+		close(fd);
+		return (parsing_error("No map found in file"), 0);
+	}
+	close(fd);
+	if (!load_map(cub, filename))
+		return (0);
+	if (!validate_map(cub))
+		return (0);
+	return (1);
 }

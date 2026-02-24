@@ -3,29 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miovu <miovu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/18 17:42:16 by hcarrasq          #+#    #+#             */
-/*   Updated: 2024/11/18 17:53:08 by hcarrasq         ###   ########.fr       */
+/*   Created: 2024/10/28 12:54:52 by miovu             #+#    #+#             */
+/*   Updated: 2024/11/18 18:29:01 by miovu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_strlcpy(char	*dest, const char *src, size_t size)
 {
-	size_t	sorcl;
-	size_t	i;
+	size_t	count;
+	size_t	src_len;
 
-	sorcl = ft_strlen(src);
-	i = 0;
+	src_len = ft_strlen(src);
+	count = 0;
 	if (size == 0)
-		return (sorcl);
-	while (i < size - 1 && src[i] != '\0')
+		return (src_len);
+	while (src[count] && count < (size - 1))
 	{
-		dst[i] = src[i];
-		i++;
+		dest[count] = src[count];
+		count++;
 	}
-	dst[i] = '\0';
-	return (sorcl);
+	dest[count] = '\0';
+	return (src_len);
 }
+
+/* #include <stdio.h>
+#include <string.h>
+int	main()
+{
+	const char	*source = "Hello";
+	char	destination[3];
+	const char	*source1 = "Hello";
+	char	destination1[3];
+	size_t		i = 1;
+	size_t j;
+	size_t k;
+
+	j = ft_strlcpy(destination, source, i);
+	printf("%zu\n", j);
+	k = strlcpy(destination1, source1, i);
+	printf("%zu", k);
+	if (j == k)
+		printf("Success!");
+		else
+			printf("Failed...");
+	return (0);
+} */
