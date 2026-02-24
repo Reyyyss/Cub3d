@@ -101,3 +101,4 @@ void	render_3d(t_game *cub)
 		r++;
 	}
 }
+

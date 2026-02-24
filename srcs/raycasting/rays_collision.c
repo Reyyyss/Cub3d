@@ -64,7 +64,7 @@ static t_dpoint	*alloc_point_from_ray(t_game *cub, int r)
 	return (pt);
 }
 
-t_dpoint	*check_horizontal_line(t_game *cub, int r)
+/* t_dpoint	*check_horizontal_line(t_game *cub, int r)
 {
 	double		tang;
 
@@ -86,5 +86,34 @@ t_dpoint	*check_vertical_line(t_game *cub, int r)
 	if (cub->ray[r]->r_angle != M_PI / 2
 		&& cub->ray[r]->r_angle != 3 * M_PI / 2)
 		step_ray(cub, r);
+	return (alloc_point_from_ray(cub, r));
+} */
+t_dpoint	*check_horizontal_line(t_game *cub, int r)
+{
+	double	angle;
+	double	tang;
+
+	angle = cub->ray[r]->r_angle;
+	if (fabs(sin(angle)) < 0.000001)
+		return (NULL);
+	tang = -cos(angle) / sin(angle);
+	if (!set_horizontal_start(cub, r, tang))
+		return (NULL);
+	step_ray(cub, r);
+	return (alloc_point_from_ray(cub, r));
+}
+
+t_dpoint	*check_vertical_line(t_game *cub, int r)
+{
+	double	angle;
+	double	tang;
+
+	angle = cub->ray[r]->r_angle;
+	if (fabs(cos(angle)) < 0.000001)
+		return (NULL);
+	tang = -sin(angle) / cos(angle);
+	if (!set_vertical_start(cub, r, tang))
+		return (NULL);
+	step_ray(cub, r);
 	return (alloc_point_from_ray(cub, r));
 }

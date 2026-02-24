@@ -23,8 +23,8 @@ void	step_ray(t_game *cub, int r)
 
 // 	fov_rad = deg_to_rad(FOV);
 // 	angle = cub->player->angle - fov_rad / 2.0 + fov_rad * r / (double)WIDTH;
-// 	// ray_offset = -fov_rad / 2.0 + (fov_rad * r) / (double)(WIDTH - 1);
-// 	// angle = cub->player->angle + ray_offset;
+// 	ray_offset = -fov_rad / 2.0 + (fov_rad * r) / (double)(WIDTH - 1);
+// 	angle = cub->player->angle + ray_offset;
 // 	while (angle < 0)
 // 		angle += 2 * M_PI;
 // 	while (angle >= 2 * M_PI)

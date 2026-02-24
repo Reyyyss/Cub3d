@@ -42,7 +42,7 @@ static t_dpoint	*get_nearest_intersection(t_game *cub, int r,
 	return (horizontal);
 }
 
-void	cast_rays(t_game *cub)
+/* void	cast_rays(t_game *cub)
 {
 	int			r;
 	t_dpoint	*vertical_point;
@@ -59,6 +59,44 @@ void	cast_rays(t_game *cub)
 		horizontal_point = check_horizontal_line(cub, r);
 		nearest_point = get_nearest_intersection(cub, r,
 				vertical_point, horizontal_point);
+		if (nearest_point)
+		{
+			cub->ray[r]->r->x = nearest_point->x;
+			cub->ray[r]->r->y = nearest_point->y;
+			draw_line(cub, YELLOW, r);
+		}
+		free(vertical_point);
+		free(horizontal_point);
+		r++;
+	}
+} */
+
+void	cast_rays(t_game *cub)
+{
+	int			r;
+	t_dpoint	*vertical_point;
+	t_dpoint	*horizontal_point;
+	t_dpoint	*nearest_point;
+	static int	debug_count = 0;
+
+	r = 0;
+	while (r < WIDTH)
+	{
+		cub->ray[r]->r_angle = calculate_ray_angle(cub, r);
+		cub->ray[r]->r0->x = cub->player->p->x;
+		cub->ray[r]->r0->y = cub->player->p->y;
+		vertical_point = check_vertical_line(cub, r);
+		horizontal_point = check_horizontal_line(cub, r);
+		nearest_point = get_nearest_intersection(cub, r,
+				vertical_point, horizontal_point);
+		
+		// DEBUG: Print every 50th ray
+		if (debug_count++ % 50 == 0)
+		{
+			printf("Ray %d: vert=%p, horiz=%p, nearest=%p\n", 
+				r, vertical_point, horizontal_point, nearest_point);
+		}
+		
 		if (nearest_point)
 		{
 			cub->ray[r]->r->x = nearest_point->x;
