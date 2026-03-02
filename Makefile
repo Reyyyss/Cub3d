@@ -1,7 +1,7 @@
-NAME = cub3d
+NAME = cub3D
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -O3 -march=native -flto -ftree-vectorize -funroll-loops -ffast-math
+CFLAGS = -Wall -Werror -Wextra -O3 -march=native -flto -ftree-vectorize -funroll-loops -ffast-math -g
 MLXFLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 SRC_DIR = srcs

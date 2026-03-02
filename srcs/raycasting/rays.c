@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rays.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/25 12:13:13 by hcarrasq          #+#    #+#             */
+/*   Updated: 2026/02/25 12:13:14 by hcarrasq         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
 static void	set_vertical_side(t_game *cub, int r)
@@ -77,7 +89,6 @@ void	cast_rays(t_game *cub)
 	t_dpoint	*vertical_point;
 	t_dpoint	*horizontal_point;
 	t_dpoint	*nearest_point;
-	static int	debug_count = 0;
 
 	r = 0;
 	while (r < WIDTH)
@@ -89,14 +100,6 @@ void	cast_rays(t_game *cub)
 		horizontal_point = check_horizontal_line(cub, r);
 		nearest_point = get_nearest_intersection(cub, r,
 				vertical_point, horizontal_point);
-		
-		// DEBUG: Print every 50th ray
-		if (debug_count++ % 50 == 0)
-		{
-			printf("Ray %d: vert=%p, horiz=%p, nearest=%p\n", 
-				r, vertical_point, horizontal_point, nearest_point);
-		}
-		
 		if (nearest_point)
 		{
 			cub->ray[r]->r->x = nearest_point->x;

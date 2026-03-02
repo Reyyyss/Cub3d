@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/25 12:12:11 by hcarrasq          #+#    #+#             */
+/*   Updated: 2026/02/25 12:34:26 by hcarrasq         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/cub3d.h"
 
 static void	draw_minimap_tile(t_game *cub, t_rect t, int color)
@@ -11,10 +23,7 @@ static void	draw_minimap_tile(t_game *cub, t_rect t, int color)
 		x = 0;
 		while (x < t.w)
 		{
-			if (y == 0 || x == 0)
-				my_mlx_pixel_put(cub->img, t.x + x, t.y + y, RED);
-			else
-				my_mlx_pixel_put(cub->img, t.x + x, t.y + y, color);
+			my_mlx_pixel_put(cub->img, t.x + x, t.y + y, color);
 			x++;
 		}
 		y++;

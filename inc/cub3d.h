@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/25 12:37:25 by hcarrasq          #+#    #+#             */
+/*   Updated: 2026/02/27 14:59:15 by hcarrasq         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
 # define ERROR_MESSAGE "ERROR\n"
 
-# define HEIGHT 1000
-# define WIDTH 	1000
+# define HEIGHT 540
+# define WIDTH 	540
 
 # define DEGREE 0.0174532925 
 
@@ -171,12 +183,12 @@ typedef struct s_game
 	char		player_start_dir;
 	int			player_start_col;
 	int			player_start_row;
-	bool			key_w;
-	bool			key_a;
-	bool			key_s;
-	bool			key_d;
-	bool			key_left;
-	bool			key_right;
+	bool		key_w;
+	bool		key_a;
+	bool		key_s;
+	bool		key_d;
+	bool		key_left;
+	bool		key_right;
 	int			minimap_visible;
 	int			instructions_visible;
 }				t_game;
@@ -209,7 +221,7 @@ int			is_wall(t_game *cub, int pixel_x, int pixel_y, int offset);
 // ── PARSING ──────────────────────────────────────────
 // parsing/parse_main.c
 void		init_parsing_data(t_game *cub);
-int			parse_cub_file(t_game *cub, char *filename);
+bool			parse_cub_file(t_game *cub, char *filename);
 // parsing/parse_colors.c
 int			parse_color_line(char *line, char type, t_game *cub);
 // parsing/parse_header.c

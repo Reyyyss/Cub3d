@@ -1,16 +1,19 @@
-#include "../../inc/cub3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_hooks.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hcarrasq <hcarrasq@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/25 12:12:00 by hcarrasq          #+#    #+#             */
+/*   Updated: 2026/02/27 15:08:38 by hcarrasq         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// static int	key_rotate(int keycode, t_game *cub)
-// {
-// 	if (keycode == RIGHT || keycode == LEFT)
-// 		player_direction(keycode, cub);
-// 	re_render(cub);
-// 	return (0);
-// }
+#include "../../inc/cub3d.h"
 
 void	init_events(t_game *cub)
 {
-	// mlx_hook(cub->win, KeyPress, KeyPressMask, key_rotate, cub);
 	mlx_hook(cub->win, KeyPress, KeyPressMask, key_press, cub);
 	mlx_hook(cub->win, DestroyNotify, StructureNotifyMask,
 		close_handler, cub);
@@ -37,17 +40,21 @@ void	free_parsing_data(t_game *cub)
 	int	i;
 
 	i = 0;
+	if (!cub)
+    	return;
 	while (i < 4)
 	{
-		free(cub->tex_paths[i]);
+		if (cub->tex_paths[i])
+			free(cub->tex_paths[i]);
 		i++;
 	}
 	if (cub->map)
 	{
 		i = 0;
 		while (cub->map[i])
-		{
-			free(cub->map[i]);
+		{	
+			if (cub->map[i])
+				free(cub->map[i]);
 			i++;
 		}
 		free(cub->map);
